@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0.29
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=appdb
+    volumes:
+      - ./src/test/resources/migrations/:/docker-entrypoint-initdb.d/:ro
+    healthcheck:
+      test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"

@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: app
+  r2dbc:
+    url: r2dbcs:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE_NAME:appdb}?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:secret}
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: ${GITHUB_CLIENT_ID:}
+            clientSecret: ${GITHUB_CLIENT_SECRET:}
+          google:
+            clientId: ${GOOGLE_CLIENT_ID:}
+            clientSecret: ${GOOGLE_CLIENT_SECRET:}
+            scope:
+              - openid
+              - email
+              - profile
+  main.banner-mode: "off"
+  thymeleaf:
+    prefix: classpath:/frontend/build/
+    checkTemplate: true
+
+app:
+  jwt:
+    # Signing key for HS512 algorithm
+    # In http://www.allkeysgenerator.com/ you can generate all kinds of keys
+    secret: vG-KaPdSgVkYp3s6v9y$B&E(H+MbQeThWmZq4t7w!z%C*F-J@NcRfUjXn2r5u8/x
+    expiration:
+      minutes: 10
+  oauth2:
+    redirectUri: ${APP_OAUTH2_REDIRECT_URI:http://localhost:8080/oauth2/redirect}
+  cors:
+    allowed-origins: http://localhost:3000, http://localhost:8080
+
+logging:
+  level:
+    org.springframework.security: WARN
+    org.springframework.boot: WARN
+    org.springframework.boot.autoconfigure.logging: WARN
+    org.springframework.orm: WARN
+    org.springframework.data: WARN
+    com.zaxxer.hikari: WARN
+    org.hibernate: WARN
+    org.apache.catalina: WARN
+    com.github.dockerjava: WARN
+
