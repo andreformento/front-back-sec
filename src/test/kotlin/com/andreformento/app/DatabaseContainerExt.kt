@@ -3,16 +3,10 @@ package com.andreformento.app
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.MySQLContainer
-import org.testcontainers.containers.MySQLR2DBCDatabaseContainer
 
 private const val appDatabaseName = "appdb"
 private const val appDatabaseUsername = "root"
 private const val appDatabasePassword = "secret"
-
-data class DatabaseContainer(
-    val mySQLContainer: MySQLContainer<*>,
-    val r2dbcContainer: MySQLR2DBCDatabaseContainer,
-)
 
 fun createContainer() =
     MySQLContainer("mysql:8.0.29")
@@ -21,22 +15,15 @@ fun createContainer() =
             withDatabaseName(appDatabaseName)
             withUsername(appDatabaseUsername)
             withPassword(appDatabasePassword)
-        }
-        .let { mySQLContainer: MySQLContainer<*> ->
-            val r2dbcContainer: MySQLR2DBCDatabaseContainer =
-                MySQLR2DBCDatabaseContainer(mySQLContainer).apply { start() }
-            DatabaseContainer(
-                mySQLContainer = mySQLContainer,
-                r2dbcContainer = r2dbcContainer
-            )
+            start()
         }
 
 fun DynamicPropertyRegistry.configureProperties(
-    databaseContainer: DatabaseContainer,
-    hostOverride: String = databaseContainer.mySQLContainer.containerIpAddress
+    mySQLContainer: MySQLContainer<*>,
+    hostOverride: String = mySQLContainer.containerIpAddress
 ) {
     this.add("MYSQL_HOST") { hostOverride }
-    this.add("MYSQL_PORT") { databaseContainer.mySQLContainer.firstMappedPort }
+    this.add("MYSQL_PORT") { mySQLContainer.firstMappedPort }
     this.add("MYSQL_DATABASE_NAME", ::appDatabaseName)
     this.add("MYSQL_USERNAME", ::appDatabaseUsername)
     this.add("MYSQL_PASSWORD", ::appDatabasePassword)

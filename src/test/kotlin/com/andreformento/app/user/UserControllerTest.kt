@@ -13,14 +13,14 @@ import org.testcontainers.junit.jupiter.Container
 
 @SpringBootTest
 @AutoConfigureWebTestClient(timeout = "3600000")
-class UserControllerTest {
+class UserControllerTest1 {
 
     @Autowired
     private lateinit var securitySessionTest: SecuritySessionTest
 
     @Test
     fun `should get user information`() {
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             webClient
                 .get()
                 .uri("/api/users/me")

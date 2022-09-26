@@ -1,5 +1,6 @@
 package com.andreformento.app.security
 
+import com.andreformento.app.SessionContextTest
 import com.andreformento.app.organization.OrganizationRequest
 import com.andreformento.app.organization.OrganizationResponse
 import com.andreformento.app.organization.share.NewOrganizationShareRequest
@@ -63,6 +64,21 @@ class SecuritySessionTest(
 
     fun createContext(email: String = createAnEmail()) = saveUser(email).let(this::getContext)
     fun getContext(user: User) =
+        SessionContextTest(
+            webClient,
+            user,
+            SecuritySessionContext(
+                tokenProvider = tokenProvider,
+                userService = userService,
+                userToken = generateUserToken(user),
+                user = user,
+                webClient = webClient,
+                email = user.email,
+            )
+        )
+
+    fun createContextTODO(email: String = createAnEmail()) = saveUser(email).let(this::getContextTODO)
+    fun getContextTODO(user: User) =
         SecuritySessionContext(
             tokenProvider = tokenProvider,
             userService = userService,

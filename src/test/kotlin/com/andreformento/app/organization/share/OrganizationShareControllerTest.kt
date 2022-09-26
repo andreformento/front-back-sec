@@ -21,10 +21,10 @@ class OrganizationShareControllerTest {
 
     @Test
     fun `should share an organization with other user`() {
-        val adminUser = securitySessionTest.createContext(createAnEmail()).user
-        val ownerUser = securitySessionTest.createContext(createAnEmail()).user
+        val adminUser = securitySessionTest.createContextTODO(createAnEmail()).user
+        val ownerUser = securitySessionTest.createContextTODO(createAnEmail()).user
 
-        with(securitySessionTest.getContext(ownerUser)) {
+        with(securitySessionTest.getContextTODO(ownerUser)) {
             val createdOrganization = createOrganization()
 
             webClient
@@ -44,7 +44,7 @@ class OrganizationShareControllerTest {
     }
     @Test
     fun `should not share with yourself`() {
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             val createdOrganization = createOrganization()
 
             webClient

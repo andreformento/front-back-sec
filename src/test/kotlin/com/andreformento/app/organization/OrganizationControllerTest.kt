@@ -22,7 +22,7 @@ class OrganizationControllerTest {
 
     @Test
     fun `should create an organization`() {
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             webClient
                 .post()
                 .uri("/api/organizations")
@@ -42,11 +42,11 @@ class OrganizationControllerTest {
         val organizationName = "org_${Random.nextInt(Int.MAX_VALUE)}"
 
         // create an organization from other user with the same name
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             createOrganization(organizationName)
         }
 
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             val createdOrganization = createOrganization(organizationName)
 
             webClient
@@ -66,11 +66,11 @@ class OrganizationControllerTest {
     @Test
     fun `should filter find all organizations from user`() {
         // create an organization from other user to validate security
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             createOrganization()
         }
 
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             val createdOrganization1 = createOrganization("organization a")
             val createdOrganization2 = createOrganization("organization b")
 
@@ -93,9 +93,9 @@ class OrganizationControllerTest {
     @Test
     fun `should not get organization from other user`() {
         // create an organization from other user to validate security
-        val organizationFromOtherUser = securitySessionTest.createContext().createOrganization()
+        val organizationFromOtherUser = securitySessionTest.createContextTODO().createOrganization()
 
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             webClient
                 .get()
                 .uri("/api/organizations/${organizationFromOtherUser.id}")
@@ -108,7 +108,7 @@ class OrganizationControllerTest {
 
     @Test
     fun `owner should delete single organization`() {
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             val createdOrganization = createOrganization()
             val organizationUri = "/api/organizations/${createdOrganization.id}"
 
@@ -130,9 +130,9 @@ class OrganizationControllerTest {
 
     @Test
     fun `owner should delete all shared organization`() {
-        val adminUser = securitySessionTest.createContext().user
+        val adminUser = securitySessionTest.createContextTODO().user
 
-        val organizationUri = with(securitySessionTest.createContext()) {
+        val organizationUri = with(securitySessionTest.createContextTODO()) {
             val createdOrganization = createOrganization()
 
             shareOrganization(createdOrganization.id, adminUser.id)
@@ -156,7 +156,7 @@ class OrganizationControllerTest {
             return@with organizationUri
         }
 
-        with(securitySessionTest.getContext(adminUser)) {
+        with(securitySessionTest.getContextTODO(adminUser)) {
             webClient
                 .get()
                 .uri(organizationUri)
@@ -169,10 +169,10 @@ class OrganizationControllerTest {
 
     @Test
     fun `admin should delete your own shared organization`() {
-        val adminUser = securitySessionTest.createContext().user
+        val adminUser = securitySessionTest.createContextTODO().user
 
         // owner create organization
-        val (organizationUri, ownerUser) = with(securitySessionTest.createContext()) {
+        val (organizationUri, ownerUser) = with(securitySessionTest.createContextTODO()) {
             val createdOrganization = createOrganization()
 
             shareOrganization(createdOrganization.id, adminUser.id)
@@ -183,7 +183,7 @@ class OrganizationControllerTest {
         }
 
         // admin can delete only shared organization
-        with(securitySessionTest.getContext(adminUser)) {
+        with(securitySessionTest.getContextTODO(adminUser)) {
             webClient
                 .delete()
                 .uri(organizationUri)
@@ -200,7 +200,7 @@ class OrganizationControllerTest {
         }
 
         // owner need to see organization yet
-        with(securitySessionTest.getContext(ownerUser)) {
+        with(securitySessionTest.getContextTODO(ownerUser)) {
             webClient
                 .get()
                 .uri(organizationUri)
@@ -213,12 +213,12 @@ class OrganizationControllerTest {
     @Test
     fun `should not delete organization from other user`() {
         // create an organization from other user to validate security
-        val (organizationFromOtherUser, otherUser) = with(securitySessionTest.createContext()) {
+        val (organizationFromOtherUser, otherUser) = with(securitySessionTest.createContextTODO()) {
             Pair(createOrganization(), user)
         }
         val organizationUri = "/api/organizations/${organizationFromOtherUser.id}"
 
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             webClient
                 .delete()
                 .uri(organizationUri)
@@ -227,7 +227,7 @@ class OrganizationControllerTest {
                 .expectStatus().isNotFound
         }
 
-        with(securitySessionTest.getContext(otherUser)) {
+        with(securitySessionTest.getContextTODO(otherUser)) {
             webClient
                 .get()
                 .uri(organizationUri)
@@ -239,7 +239,7 @@ class OrganizationControllerTest {
 
     @Test
     fun `should update organization`() {
-        with(securitySessionTest.createContext()) {
+        with(securitySessionTest.createContextTODO()) {
             val createdOrganization = createOrganization("new org")
 
             webClient

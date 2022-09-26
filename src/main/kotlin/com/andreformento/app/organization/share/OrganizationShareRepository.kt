@@ -1,19 +1,19 @@
 package com.andreformento.app.organization.share
 
-import org.springframework.data.r2dbc.repository.Modifying
-import org.springframework.data.r2dbc.repository.Query
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrganizationShareRepository : CoroutineCrudRepository<OrganizationShareEntity, ByteArray> {
+interface OrganizationShareRepository : CrudRepository<OrganizationShareEntity, ByteArray> {
     @Modifying
     suspend fun deleteByOrganizationId(@Param("organization_id") organizationId: ByteArray)
 }
 
 @Repository
-interface OrganizationShareFullRepository : CoroutineCrudRepository<OrganizationShareFullEntity, ByteArray> {
+interface OrganizationShareFullRepository : CrudRepository<OrganizationShareFullEntity, ByteArray> {
     @Query(
         """
         select os.id as organization_share_id, os.`role`, os.organization_id, os.user_id,

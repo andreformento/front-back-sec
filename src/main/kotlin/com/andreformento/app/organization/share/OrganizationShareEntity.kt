@@ -7,9 +7,9 @@ import com.andreformento.app.util.BaseView
 import com.andreformento.app.util.asBytes
 import com.andreformento.app.util.asUUID
 import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
 import java.util.*
+import javax.persistence.Column
+import javax.persistence.Table
 
 @Table(name = "organization_share")
 data class OrganizationShareEntity(
@@ -28,7 +28,7 @@ data class OrganizationShareEntity(
 @Table(name = "organization_share")
 data class OrganizationShareFullEntity(
     @Id
-    @Column("organization_share_id")
+    @Column(name="organization_share_id")
     private var id: ByteArray? = null,
     var userId: ByteArray? = null,
     var userName: String? = null,

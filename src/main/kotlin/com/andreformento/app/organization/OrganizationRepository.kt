@@ -1,12 +1,12 @@
 package com.andreformento.app.organization
 
-import org.springframework.data.r2dbc.repository.Query
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrganizationRepository : CoroutineCrudRepository<OrganizationEntity, ByteArray> {
+interface OrganizationRepository : CrudRepository<OrganizationEntity, ByteArray> {
 
     @Query("""
         SELECT o.*

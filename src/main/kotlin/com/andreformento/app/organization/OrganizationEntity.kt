@@ -4,8 +4,8 @@ import com.andreformento.app.util.BaseView
 import com.andreformento.app.util.asBytes
 import com.andreformento.app.util.asUUID
 import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
 import java.util.*
+import javax.persistence.Table
 
 @Table(name = "organization")
 data class OrganizationEntity(

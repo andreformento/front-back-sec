@@ -1,8 +1,8 @@
 spring:
   application:
     name: app
-  r2dbc:
-    url: r2dbcs:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE_NAME:appdb}?characterEncoding=UTF-8&serverTimezone=UTC
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE_NAME:appdb}?characterEncoding=UTF-8&serverTimezone=UTC
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:secret}
   security:

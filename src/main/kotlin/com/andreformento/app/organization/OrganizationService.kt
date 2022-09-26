@@ -5,6 +5,7 @@ import com.andreformento.app.organization.share.Role
 import com.andreformento.app.security.LoadedOrganizationShare
 import com.andreformento.app.security.LoadedUser
 import com.andreformento.app.util.asBytes
+import com.andreformento.app.util.unwrap
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -22,7 +23,7 @@ class OrganizationService(
         .map { it.toModel() }
 
     suspend fun getById(loadedUser: LoadedUser, id: UUID): Organization? =
-        organizationRepository.findById(id.asBytes())?.toModel()
+        organizationRepository.findById(id.asBytes()).unwrap()?.toModel()
 
     suspend fun create(loadedUser: LoadedUser, organizationRequest: OrganizationRequest) = organizationRepository
         .save(organizationRequest.newFromModel()).toModel()

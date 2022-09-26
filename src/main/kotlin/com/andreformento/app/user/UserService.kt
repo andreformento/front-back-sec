@@ -2,6 +2,7 @@ package com.andreformento.app.user
 
 import com.andreformento.app.security.OAuth2Provider
 import com.andreformento.app.util.asBytes
+import com.andreformento.app.util.unwrap
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -25,7 +26,7 @@ class UserService(private val userRepository: UserRepository) {
         userRepository.existsByEmailAndProvider(email, provider)
 
     suspend fun getById(userId: UUID): User? =
-        userRepository.findById(userId.asBytes())?.toModel()
+        userRepository.findById(userId.asBytes()).unwrap()?.toModel()
 
     suspend fun createUser(newUser: NewUser): User = userRepository.save(newUser.fromModel()).toModel()
 
